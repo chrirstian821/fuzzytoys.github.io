@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>线上商城 - POP MART</title>
+  <title>线上商城 - FuzzyToys</title>
   <link rel="stylesheet" href="styles.css">
   <style>
     .mall-banner {
@@ -380,9 +380,86 @@
       ©Fuzzy Toys  love live Toys
     </div>
     <div class="social-icons">
-      <a href="#"><img src="img/weixin.png" alt="微信"></a>
-      <a href="#"><img src="img/weibo.png" alt="微博"></a>
+      <a href="#" class="social-link" data-modal="weixinModal"><img src="img/weixin.png" alt="微信"></a>
+      <a href="#" class="social-link" data-modal="weiboModal"><img src="img/weibo.png" alt="微博"></a>
     </div>
   </footer>
+
+  <!-- 微信弹窗 -->
+  <div id="weixinModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="modal-body">
+        <img src="img/weixinscan.jpg" alt="微信二维码">
+        <p style="color:white;">扫描二维码添加我们的官方微信</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 微博弹窗 -->
+  <div id="weiboModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="modal-body">
+        <img src="img/weiboscan.jpg" alt="微博二维码">
+        <p>去微博搜索我们的账户</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 确保DOM加载完成后执行
+    document.addEventListener('DOMContentLoaded', function() {
+      // 获取模态框
+      var weixinModal = document.getElementById('weixinModal');
+      var weiboModal = document.getElementById('weiboModal');
+
+      // 获取触发链接
+      var weixinLink = document.querySelector('a[data-modal="weixinModal"]');
+      var weiboLink = document.querySelector('a[data-modal="weiboModal"]');
+
+      // 验证元素是否存在
+      console.log('微信链接元素:', weixinLink);
+      console.log('微博链接元素:', weiboLink);
+      console.log('微信弹窗元素:', weixinModal);
+      console.log('微博弹窗元素:', weiboModal);
+
+      // 打开微信弹窗
+      if (weixinLink && weixinModal) {
+        weixinLink.onclick = function(event) {
+          event.preventDefault();
+          weixinModal.style.display = 'block';
+          console.log('微信弹窗已打开');
+        };
+      }
+
+      // 打开微博弹窗
+      if (weiboLink && weiboModal) {
+        weiboLink.onclick = function(event) {
+          event.preventDefault();
+          weiboModal.style.display = 'block';
+          console.log('微博弹窗已打开');
+        };
+      }
+
+      // 关闭按钮功能
+      var closeButtons = document.getElementsByClassName('close');
+      for (var i = 0; i < closeButtons.length; i++) {
+        closeButtons[i].onclick = function() {
+          weixinModal.style.display = 'none';
+          weiboModal.style.display = 'none';
+        };
+      }
+
+      // 点击外部关闭
+      window.onclick = function(event) {
+        if (event.target == weixinModal) {
+          weixinModal.style.display = 'none';
+        } else if (event.target == weiboModal) {
+          weiboModal.style.display = 'none';
+        }
+      };
+    });
+  </script>
 </body>
 </html>

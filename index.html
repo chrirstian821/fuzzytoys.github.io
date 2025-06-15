@@ -398,11 +398,142 @@
        ©Fuzzy Toys  love live Toys
     </div>
     <div class="social-icons">
-      <a href="#"><img src="img/weixin.png" alt="微信"></a>
-      <a href="#"><img src="img/weibo.png" alt="微博"></a>
+      <a href="#weixin"><img src="img/weixin.png" alt="微信"></a>
+      <a href="#weibo"><img src="img/weibo.png" alt="微博"></a>
     </div>
   </footer>
 
+  <!-- 微信弹窗 -->
+  <div id="weixin-modal" class="auth-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1000;justify-content:center;align-items:center;">
+    <div class="auth-container bg-white p-6 rounded-lg" style="max-width:300px;text-align:center;">
+      <h3 style="margin-top:0;">关注官方微信</h3>
+      <img src="img/weixinscan.jpg" alt="微信二维码" style="max-width:100%;margin:15px 0;">
+      <p style="color:white;">扫描二维码添加我们的官方微信</p>
+      <button onclick="document.getElementById('weixin-modal').style.display='none'" style="margin-top:15px;padding:8px 16px;background:#007bff;color:white;border:none;border-radius:4px;cursor:pointer;">关闭</button>
+    </div>
+  </div>
+
+  <!-- 微博弹窗 -->
+  <div id="weibo-modal" class="auth-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1000;justify-content:center;align-items:center;">
+    <div class="auth-container bg-white p-6 rounded-lg" style="max-width:300px;text-align:center;">
+      <h3 style="margin-top:0;">关注官方微博</h3>
+      <img src="img/weiboscan.jpg" alt="微博二维码" style="max-width:100%;margin:15px 0;">
+      <p>去微博搜索我们的账户</p>
+      <button onclick="document.getElementById('weibo-modal').style.display='none'" style="margin-top:15px;padding:8px 16px;background:#007bff;color:white;border:none;border-radius:4px;cursor:pointer;">关闭</button>
+    </div>
+  </div>
+
+  <!-- 社交图标点击事件 -->
+  <script type="text/javascript">
+    // 直接绑定点击事件到图标
+    document.addEventListener('DOMContentLoaded', function() {
+      // 微信图标点击事件
+      const weixinIcon = document.querySelector('.social-icons a[href*="weixin"]');
+      if (weixinIcon) {
+        weixinIcon.addEventListener('click', function(e) {
+          e.preventDefault();
+          document.getElementById('weixin-modal').style.display = 'flex';
+        });
+      } else {
+        console.error('未找到微信图标元素');
+      }
+
+      // 微博图标点击事件
+      const weiboIcon = document.querySelector('.social-icons a[href*="weibo"]');
+      if (weiboIcon) {
+        weiboIcon.addEventListener('click', function(e) {
+          e.preventDefault();
+          document.getElementById('weibo-modal').style.display = 'flex';
+        });
+      } else {
+        console.error('未找到微博图标元素');
+      }
+
+      // 点击弹窗外部关闭
+      const modals = document.querySelectorAll('.auth-modal');
+      modals.forEach(modal => {
+        modal.addEventListener('click', function(e) {
+          if (e.target === this) {
+            this.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+  <script type="text/javascript">
+    // ... 现有轮播图JS代码 ...
+        }
+      };
+      carousel.init();
+    
+      // 社交图标弹窗功能 - 带调试信息
+      console.log('初始化社交图标弹窗功能');
+      document.addEventListener('DOMContentLoaded', function() {
+        // 获取所有社交图标和模态框
+        const socialIcons = document.querySelectorAll('.social-icon');
+        const modals = document.querySelectorAll('.auth-modal');
+        const closeButtons = document.querySelectorAll('.close-modal');
+    
+        console.log('找到社交图标数量:', socialIcons.length);
+        console.log('找到模态框数量:', modals.length);
+    
+        // 打开模态框
+        socialIcons.forEach(icon => {
+          icon.addEventListener('click', function(e) {
+            e.preventDefault();
+            const modalId = this.getAttribute('data-modal');
+            const modal = document.getElementById(modalId);
+            console.log('尝试打开模态框:', modalId, modal);
+    
+            if (modal) {
+              modal.style.display = 'flex';
+              document.body.style.overflow = 'hidden';
+            } else {
+              console.error('未找到模态框:', modalId);
+            }
+          });
+        });
+    
+        // 关闭模态框函数
+        function closeModal(modal) {
+          if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+          }
+        }
+    
+        // 关闭按钮事件
+        closeButtons.forEach(button => {
+          button.addEventListener('click', function() {
+            const modal = this.closest('.auth-modal');
+            console.log('点击关闭按钮，关闭模态框:', modal);
+            closeModal(modal);
+          });
+        });
+    
+        // 点击外部关闭
+        modals.forEach(modal => {
+          modal.addEventListener('click', function(e) {
+            if (e.target === this) {
+              console.log('点击模态框外部，关闭模态框');
+              closeModal(this);
+            }
+          });
+        });
+    
+        // ESC键关闭
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+            console.log('按下ESC键，关闭所有模态框');
+            modals.forEach(modal => {
+              if (modal.style.display === 'flex') {
+                closeModal(modal);
+              }
+            });
+          }
+        });
+      });
+    </script>
   <!-- 轮播交互JS -->
   <script>
     const carousel = {
