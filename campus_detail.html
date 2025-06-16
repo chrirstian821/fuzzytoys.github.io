@@ -151,3 +151,102 @@
   </script>
 </body>
 </html>
+
+<!-- 联系卖家弹窗 -->
+<div id="sellerModal" style="display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4);">
+  <div style="background-color: #fefefe; margin: 10% auto; padding: 25px; border-radius: 8px; width: 80%; max-width: 500px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <h3 style="margin: 0;">卖家信息与支付</h3>
+      <span class="close-seller" style="color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+    </div>
+    
+    <div style="border-top: 1px solid #eee; padding: 20px 0;">
+      <p style="margin: 10px 0;"><strong>商品价格:</strong> <span id="modalPrice" style="color: #f00; font-size: 20px;"></span></p>
+      <p style="margin: 10px 0;"><strong>卖家电话:</strong> <span id="sellerPhone"></span></p>
+      <p style="margin: 10px 0;"><strong>交易地址:</strong> <span id="sellerAddress"></span></p>
+    </div>
+    
+    <div style="margin: 20px 0;">
+      <p style="margin-bottom: 15px;">请选择支付方式</p>
+      <div style="display: flex; justify-content: center; gap: 30px;">
+        <label style="display: flex; flex-direction: column; align-items: center; cursor: pointer;">
+          <input type="radio" name="sellerPayment" value="wechat" checked>
+          <img src="img/weixin.png" alt="微信支付" style="width: 60px; height: 60px; margin-bottom: 10px;">
+          <span>微信支付</span>
+        </label>
+        <label style="display: flex; flex-direction: column; align-items: center; cursor: pointer;">
+          <input type="radio" name="sellerPayment" value="alipay">
+          <img src="img/zfb.png" alt="支付宝" style="width: 60px; height: 60px; margin-bottom: 10px;">
+          <span>支付宝</span>
+        </label>
+      </div>
+    </div>
+    
+    <button id="directPayBtn" style="background-color: #ffcc00; color: #333; border: none; padding: 12px 24px; font-size: 16px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 15px;">直接支付</button>
+  </div>
+</div>
+
+<script>
+// 联系卖家弹窗功能
+document.addEventListener('DOMContentLoaded', function() {
+  // 获取元素
+  const contactBtn = document.querySelector('.contact-seller');
+  const sellerModal = document.getElementById('sellerModal');
+  const closeBtn = document.querySelector('.close-seller');
+  const directPayBtn = document.querySelector('directPayBtn');
+  const modalPrice = document.getElementById('modalPrice');
+  const sellerPhone = document.getElementById('sellerPhone');
+  const sellerAddress = document.getElementById('sellerAddress');
+  const productPriceElement = document.getElementById('productPrice');
+
+  // 假设从商品数据中提取卖家联系方式和地址
+  // 需要确保campus_products.js中的商品对象包含sellerPhone和sellerAddress属性
+  const sellerInfoText = document.getElementById('sellerInfo').textContent;
+  
+  // 这里使用模拟数据，实际项目中应从product对象获取
+  // 如果campus_products.js中已有这些数据，请替换为真实属性
+  const sellerData = {
+    phone: '138****5678', // 实际项目中使用product.sellerPhone
+    address: '株洲示范高等专科学校 学生公寓3栋', // 实际项目中使用product.sellerAddress
+    price: productPriceElement ? productPriceElement.textContent : ''
+  };
+
+  // 填充弹窗数据
+  if (modalPrice && sellerPhone && sellerAddress) {
+    modalPrice.textContent = sellerData.price;
+    sellerPhone.textContent = sellerData.phone;
+    sellerAddress.textContent = sellerData.address;
+  }
+
+  // 打开弹窗
+  if (contactBtn && sellerModal) {
+    contactBtn.onclick = function() {
+      sellerModal.style.display = 'block';
+    };
+  }
+
+  // 关闭弹窗
+  if (closeBtn && sellerModal) {
+    closeBtn.onclick = function() {
+      sellerModal.style.display = 'none';
+    };
+  }
+
+  // 点击外部关闭
+  window.onclick = function(event) {
+    if (event.target === sellerModal) {
+      sellerModal.style.display = 'none';
+    }
+  };
+
+  // 直接支付按钮功能
+  if (directPayBtn) {
+    directPayBtn.onclick = function() {
+      const selectedMethod = document.querySelector('input[name="sellerPayment"]:checked').value;
+      alert(`您选择了${selectedMethod === 'wechat' ? '微信' : '支付宝'}支付，正在处理订单...`);
+      sellerModal.style.display = 'none';
+      // 实际项目中这里可以添加支付逻辑
+    };
+  }
+});
+</script>
